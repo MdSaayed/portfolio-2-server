@@ -112,7 +112,7 @@ async function run() {
         // show advertisement
         app.get('/advertisement/:brandname', async (req, res) => {
             const brandName = req.params.brandname;
-            const query = { brand : brandName }
+            const query = { brand: brandName }
             const result = await advertisementCollection.find(query).toArray();
             res.send(result);
         })
@@ -175,7 +175,7 @@ async function run() {
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
-    } 
+    }
 }
 run().catch(console.dir);
 
