@@ -87,7 +87,7 @@ async function run() {
 
         // ===========================================================
 
-        // creat a barnd
+        // creat a barnd 
         app.post('/brands', async (req, res) => {
             const products = req.body;
             const result = await brandCollection.insertOne(products);
