@@ -101,7 +101,7 @@ async function run() {
             res.send(result);
         })
 
-        // creat a advertisement
+        // creat a advertisement post api
         app.post('/advertisement', async (req, res) => {
             const advertisements = req.body;
             const result = await advertisementCollection.insertOne(advertisements);
