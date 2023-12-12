@@ -28,145 +28,55 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
 
-        const productCollection = client.db('brandDB').collection('products');
-        const brandCollection = client.db('brandDB').collection('brands');
-        const advertisementCollection = client.db('brandDB').collection('advertisements');
-        const categorieCollection = client.db('brandDB').collection('categories');
-        const cartsCollection = client.db('brandDB').collection('carts');
+        const reviewCollection = client.db('portfolio').collection('reviews');
+        const projectCollection = client.db('portfolio').collection('projects');
+        const blogCollection = client.db('portfolio').collection('blogs');
 
-        // create a product
-        app.post('/products', async (req, res) => {
-            const products = req.body;
-            const result = await productCollection.insertOne(products);
-            res.send(result);
-
-        })
 
         // display products
-        app.get('/products', async (req, res) => {
-            const result = await productCollection.find().toArray();
+        app.get('/reviews', async (req, res) => {
+            const result = await reviewCollection.find().toArray();
             res.send(result);
         })
 
-        // show product barnds base
-        app.get('/products/:brandname', async (req, res) => {
-            const brandName = req.params.brandname;
-            const query = { brandName: brandName }
-            const result = await productCollection.find(query).toArray();
-            res.send(result);
-        })
 
-        // sigle product
-        app.get('/product/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: new ObjectId(id) }
-            const result = await productCollection.findOne(query);
-            res.send(result);
-        })
 
-        // update product
-        app.put('/products/:id', async (req, res) => {
-            const id = req.params.id;
-            const data = req.body;
-            const options = { upsert: true }
-            const filter = { _id: new ObjectId(id) }
-            const update = {
-                $set: {
-                    productName: data.productName,
-                    productImgUrl: data.productImgUrl,
-                    brandName: data.brandName,
-                    category: data.category,
-                    productPrice: data.productPrice,
-                    shortDescriptio: data.shortDescription,
-                    rating: data.rating
-                }
-            }
-            const result = await productCollection.updateOne(filter, update, options);
-            res.send(result);
-        })
-
-        // ===========================================================
-
-        // creat a barnd 
-        app.post('/brands', async (req, res) => {
+        // ==================================
+        // create a product
+        app.post('/reviews', async (req, res) => {
             const products = req.body;
-            const result = await brandCollection.insertOne(products);
+            const result = await reviewCollection.insertOne(products);
             res.send(result);
 
         })
 
-        // show brands
-        app.get('/brands', async (req, res) => {
-            const result = await brandCollection.find().toArray();
+        app.get('/projects', async (req, res) => {
+            const result = await projectCollection.find().toArray();
             res.send(result);
         })
 
-        // creat a advertisement post api
-        app.post('/advertisement', async (req, res) => {
-            const advertisements = req.body;
-            const result = await advertisementCollection.insertOne(advertisements);
-            res.send(result);
-
-        })
-
-        // show advertisement
-        app.get('/advertisement/:brandname', async (req, res) => {
-            const brandName = req.params.brandname;
-            const query = { brand: brandName }
-            const result = await advertisementCollection.find(query).toArray();
+        app.get('/blogs', async (req, res) => {
+            const result = await blogCollection.find().toArray();
             res.send(result);
         })
 
-
-        // ==============================
-
-        // creat a categories
-        app.post('/categories', async (req, res) => {
-            const products = req.body;
-            const result = await categorieCollection.insertOne(products);
-            res.send(result);
-
-        })
-
-        // show categories
-        app.get('/categories', async (req, res) => {
-            const result = await categorieCollection.find().toArray();
-            res.send(result);
-        })
-
-        // cart ==========================>
-
-        // creat a carts
-        app.post('/carts', async (req, res) => {
-            const items = req.body;
-            console.log(req.body);
-            const result = await cartsCollection.insertOne(items);
-            res.send(result);
-        }
-        )
-
-        // show carts 
-        app.get('/carts', async (req, res) => {
-            const result = await cartsCollection.find().toArray();
-            res.send(result);
-        })
-
-
-        // match cart with email
-        app.get('/carts/:email', async (req, res) => {
-            const UserEmail = req.params.email;
-            const query = { email: UserEmail }
-            const result = await cartsCollection.find(query).toArray();
-            res.send(result);
-        })
-
-        // delete cartItem
-        app.delete('/carts/:id', async (req, res) => {
-            const id = req.params.id;
+        app.get('/project/:id', async (req, res) => {
+            const id = req.body.id;
             const query = { _id: new ObjectId(id) }
-            const result = await cartsCollection.deleteOne(query);
+            const result = await projectCollection.findOne();
             res.send(result);
         })
+
+        
+
+
+
+
+
+
+
+
+
 
 
         // Send a ping to confirm a successful connection
